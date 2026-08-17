@@ -13,7 +13,7 @@ resource = {
 }
 storage = {
   sg1 = {
-    name                     = "august"
+    name                     = "bottle"
     location                 = "centralindia"
     resource_group_name      = "rg-17"
     account_tier             = "Standard"
