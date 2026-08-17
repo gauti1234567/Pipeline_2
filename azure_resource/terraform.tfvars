@@ -16,7 +16,7 @@ storage = {
     name                     = "august"
     location                 = "centralindia"
     resource_group_name      = "rg-17"
-    account_tier             = "Stanard"
+    account_tier             = "Standard"
     account_replication_type = "LRS"
 
 
