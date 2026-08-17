@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terraform-check:
     name: Terraform Validate and Plan
@@ -19,20 +23,34 @@ jobs:
         working-directory: azure_resource
 
     steps:
+      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Install Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      # 3. Login to Azure using OIDC
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: "9a694ba0-e27b-4127-8dfb-89b2575d0c0d"
+          tenant-id: "3742b20f-a23e-49ec-8973-af00c1484f28"
+          subscription-id: "3c4f0bf7-3e34-4942-8a7d-06c089641c31"
+
+      # 4. Check Terraform formatting
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
 
+      # 5. Initialize Terraform
       - name: Terraform Init
         run: terraform init
 
+      # 6. Validate Terraform configuration
       - name: Terraform Validate
         run: terraform validate
 
+      # 7. Generate Terraform Plan
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
