@@ -5,16 +5,20 @@ resource = {
     location = "centralindia"
 
   }
+  rg2 = {
+
+    name     = "rg-171"
+    location = "centralindia"
+  }
 }
-
 storage = {
-    sg1={
+  sg1 = {
     name                     = "august"
-  location                 = "centralindia"
-  resource_group_name      = "rg-17"
-  account_tier             = "Stanard"
-  account_replication_type = "LRS"
+    location                 = "centralindia"
+    resource_group_name      = "rg-17"
+    account_tier             = "Standard"
+    account_replication_type = "LRS"
 
 
-    }
+  }
 }
