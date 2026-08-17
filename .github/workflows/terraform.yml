@@ -9,10 +9,6 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   terraform-check:
     name: Terraform Validate and Plan
@@ -23,40 +19,36 @@ jobs:
         working-directory: azure_resource
 
     steps:
+
       # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Install Terraform
+      # 2. Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 3. Login to Azure using OIDC
+      # 3. Login to Azure using Client Secret
       - name: Azure Login
         uses: azure/login@v2
         with:
-            # Azure ke secrets jo aapne GitHub Settings me dale hain
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # 4. Check Terraform formatting
+      # 4. Terraform Format Check
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
 
-      # 5. Initialize Terraform
+      # 5. Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # 6. Validate Terraform configuration
+      # 6. Terraform Validate
       - name: Terraform Validate
         run: terraform validate
 
-      # 7. Generate Terraform Plan
+      # 7. Terraform Plan
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
-
-
-          # Azure ke secrets jo aapne GitHub Settings me dale hain
-  
