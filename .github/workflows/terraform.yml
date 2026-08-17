@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature
+      - main
 
   pull_request:
     branches:
@@ -27,7 +28,6 @@ jobs:
       # Step 2: Install Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-
         with:
           terraform_version: 1.8.0
 
@@ -53,9 +53,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
 
-      # Step 8: Terraform Apply (Yeh SIRF tab chalega jab main branch me merge ya push hoga)
+      # Step 8: Terraform Apply only on main push
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
-
-  
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
