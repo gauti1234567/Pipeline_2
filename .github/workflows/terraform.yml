@@ -35,9 +35,11 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: "9a694ba0-e27b-4127-8dfb-89b2575d0c0d"
-          tenant-id: "3742b20f-a23e-49ec-8973-af00c1484f28"
-          subscription-id: "3c4f0bf7-3e34-4942-8a7d-06c089641c31"
+            # Azure ke secrets jo aapne GitHub Settings me dale hain
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
       # 4. Check Terraform formatting
       - name: Terraform Format Check
@@ -54,3 +56,7 @@ jobs:
       # 7. Generate Terraform Plan
       - name: Terraform Plan
         run: terraform plan -var-file="terraform.tfvars"
+
+
+          # Azure ke secrets jo aapne GitHub Settings me dale hain
+  
